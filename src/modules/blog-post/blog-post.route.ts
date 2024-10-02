@@ -1,22 +1,22 @@
 import express from "express";
-import { BookingControllers } from "./blog-post.controller";
 import validateRequest from "../../middlewares/validateRequest";
-import { BookingValidations } from "./blog-post.validation";
-import auth from "../../middlewares/auth";
+import { BlogPostControllers } from "./blog-post.controller";
+import { BlogPostValidations } from "./blog-post.validation";
 const router = express.Router();
 
-// Book a car (User only)
+// Create a blog post
 router.post(
   "/",
-  auth("user"),
-  validateRequest(BookingValidations.bookACarValidationSchema),
-  BookingControllers.bookACar,
+  validateRequest(BlogPostValidations.createBlogPostValidationSchema),
+  BlogPostControllers.createBlogPost,
 );
+router.get("/", BlogPostControllers.getAllBlogPosts);
+router.get("/", BlogPostControllers.getBlogPost);
+router.patch(
+  "/",
+  validateRequest(BlogPostValidations.updateBlogPostValidationSchema),
+  BlogPostControllers.updateBlogPost,
+);
+router.delete("/", BlogPostControllers.deleteBlogPost);
 
-// Get booking by query parameters (Admin only)
-router.get("/", auth("admin"), BookingControllers.getAllBookings);
-
-// Get user bookings (User only)
-router.get("/my-bookings", auth("user"), BookingControllers.getUserBookings);
-
-export const BookingRoutes = router;
+export const BlogPostRoutes = router;

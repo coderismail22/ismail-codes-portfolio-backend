@@ -1,40 +1,29 @@
 import { z } from "zod";
-
-// Time validation schema for HH:mm 24-hour format
-const timeStringFormatSchema = z.string().refine(
-  (time) => {
-    const regex = /^([01]\d|2[0-3]):[0-5]\d$/;
-    return regex.test(time);
-  },
-  {
-    message: "Invalid time format, expected HH:mm in 24-hour format.",
-  },
-);
-
-// Date validation schema for YYYY-MM-DD format
-const dateStringFormatSchema = z.string().refine(
-  (date) => {
-    const regex = /^\d{4}-\d{2}-\d{2}$/; // Ensure correct format YYYY-MM-DD
-    return regex.test(date); // Just validate format, no parsing
-  },
-  {
-    message: "Invalid date format, expected YYYY-MM-DD.",
-  },
-);
-
-// Final validation schema
-const bookACarValidationSchema = z.object({
+// Create blog post validation
+const createBlogPostValidationSchema = z.object({
   body: z.object({
-    carId: z
-      .string({ required_error: "Car ID is required" })
-      .regex(
-        /^[0-9a-fA-F]{24}$/,
-        "Invalid Car ID format, expected a 24-character ObjectId.",
-      ), // ObjectId validation
-
-    date: dateStringFormatSchema, // Uses refined date schema
-    startTime: timeStringFormatSchema, // Uses refined time schema
+    title: z.string().trim().min(1, "Title is required"),
+    author: z.string().trim().min(1, "Author is required"),
+    image: z.string().url("Image must be a valid URL"),
+    body: z.string().min(1, "Body is required"),
+    category: z.array(z.string()).optional(),
+    comments: z.array(z.string()).optional(),
+    isDeleted: z.boolean().default(false),
   }),
 });
 
-export const BookingValidations = { bookACarValidationSchema };
+// Update blog post validation
+const updateBlogPostValidationSchema = z.object({
+  title: z.string().trim().min(1, "Title is required").optional(),
+  author: z.string().trim().min(1, "Author is required").optional(),
+  image: z.string().url("Image must be a valid URL").optional(),
+  body: z.string().min(1, "Body is required").optional(), // optional for updates
+  category: z.array(z.string()).optional(),
+  comments: z.array(z.string()).optional(),
+  isDeleted: z.boolean().default(false).optional(),
+});
+
+export const BlogPostValidations = {
+  createBlogPostValidationSchema,
+  updateBlogPostValidationSchema,
+};

@@ -1,11 +1,10 @@
-import { Types } from "mongoose";
-
 // Blog Post
-export type TBooking = {
-  date: string;
-  user: Types.ObjectId; // ObjectId as string to reference the user model
-  car: Types.ObjectId; // ObjectId as string to reference the car model
-  startTime: string; // "HH:mm" 24-hour format
-  endTime: string; // "HH:mm" 24-hour format
-  totalCost: number;
+export type TBlogPost = {
+  title: string;
+  author: string;
+  image: string;
+  body: string;
+  comments: string[]; 
+  category: string[];
+  isDeleted: boolean;
 };

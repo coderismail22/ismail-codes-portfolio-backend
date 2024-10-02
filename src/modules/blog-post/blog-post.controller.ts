@@ -1,69 +1,64 @@
 import catchAsync from "../../utils/catchAsync";
 import sendResponse from "../../utils/sendResponse";
-import { BookingServices } from "./blog-post.service";
+import { BlogPostServices } from "./blog-post.service";
 
-const getAllBookings = catchAsync(async (req, res) => {
-  const { carId, date } = req.query;
-
-  // Ensure that carId and date are either strings or undefined
-  const filters = {
-    carId: typeof carId === "string" ? carId : undefined,
-    date: typeof date === "string" ? date : undefined,
-  };
-
-  const result = await BookingServices.getAllBookingsFromDB(filters);
-  //if there are no result
-  if (!result || result.length === 0) {
-    return sendResponse(res, {
-      success: false,
-      statusCode: 404,
-      message: "No Data Found",
-      data: [], // Empty data array
-    });
-  }
+const createBlogPost = catchAsync(async (req, res) => {
+  const result = await BlogPostServices.createBlogPost(req.body);
   sendResponse(res, {
     success: true,
     statusCode: 200,
-    message: "Bookings retrieved successfully",
+    message: "Blog post created successfully.",
     data: result,
   });
 });
 
-const bookACar = catchAsync(async (req, res) => {
-  const { userEmail } = req?.user;
-
-  const result = await BookingServices.bookACarIntoDB(req.body, userEmail);
+const getAllBlogPosts = catchAsync(async (req, res) => {
+  const result = await BlogPostServices.getAllBlogPosts();
   sendResponse(res, {
     success: true,
     statusCode: 200,
-    message: "Car booked successfully",
+    message: "Blog posts retrieved successfully.",
     data: result,
   });
 });
 
-const getUserBookings = catchAsync(async (req, res) => {
-  const { userEmail } = req?.user;
-  const result = await BookingServices.getUserBookingsFromDB(userEmail);
-  //if there are no result
-  if (!(result.length > 0)) {
-    return sendResponse(res, {
-      success: false,
-      statusCode: 404,
-      message: "No Data Found",
-      data: [], // Empty data array
-    });
-  }
-
+const getBlogPost = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BlogPostServices.getBlogPost(id);
   sendResponse(res, {
     success: true,
     statusCode: 200,
-    message: "My Bookings retrieved successfully",
+    message: "Blog post retrieved successfully.",
     data: result,
   });
 });
 
-export const BookingControllers = {
-  getAllBookings,
-  bookACar,
-  getUserBookings,
+const updateBlogPost = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BlogPostServices.updateBlogPost(id, req.body);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Blog post updated successfully.",
+    data: result,
+  });
+});
+
+const deleteBlogPost = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BlogPostServices.deleteBlogPost(id);
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Blog post deleted successfully.",
+    data: result,
+  });
+});
+
+export const BlogPostControllers = {
+  createBlogPost,
+  getAllBlogPosts,
+  getBlogPost,
+  updateBlogPost,
+  deleteBlogPost,
 };

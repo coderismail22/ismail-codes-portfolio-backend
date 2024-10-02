@@ -1,20 +1,18 @@
-// Booking Schema
+// BlogPost Schema
 import mongoose, { Schema } from "mongoose";
-import { TBooking } from "./blog-post.interface";
+import { TBlogPost } from "./blog-post.interface";
 
-const BookingSchema: Schema = new Schema<TBooking>(
+const blogPostSchema = new Schema<TBlogPost>(
   {
-    date: { type: String, required: true },
-    user: { type: Schema.Types.ObjectId, ref: "User", required: true },
-    car: { type: Schema.Types.ObjectId, ref: "Car", required: true },
-    startTime: { type: String }, // "HH:MM" format
-    endTime: { type: String, default: null }, // "HH:MM" format
-    totalCost: { type: Number, default: 0 }, // Calculated field, can be updated later
+    title: { type: String, required: true, trim: true },
+    author: { type: String, required: true, trim: true },
+    image: { type: String, required: true },
+    body: { type: String, required: true },
+    category: { type: [String], default: [] },
+    comments: { type: [String], default: [] },
+    isDeleted: { type: Boolean, default: false },
   },
   { timestamps: true },
 );
 
-export const Booking = mongoose.model<TBooking & mongoose.Document>(
-  "Booking",
-  BookingSchema,
-);
+export const BlogPost = mongoose.model<TBlogPost>("BlogPost", blogPostSchema);
