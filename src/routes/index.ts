@@ -1,6 +1,7 @@
 import express from "express";
 import { BlogPostRoutes } from "../modules/blog-post/blog-post.route";
 import { NoteRoutes } from "../modules/note/note.route";
+import { ProjectRoutes } from "../modules/project/project.route";
 
 const router = express.Router();
 
@@ -12,6 +13,10 @@ const moduleRoutes = [
   {
     path: "/note",
     route: NoteRoutes,
+  },
+  {
+    path: "/project",
+    route: ProjectRoutes,
   },
 ];
 
