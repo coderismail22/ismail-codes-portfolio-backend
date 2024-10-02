@@ -14,13 +14,15 @@ const createBlogPostValidationSchema = z.object({
 
 // Update blog post validation
 const updateBlogPostValidationSchema = z.object({
-  title: z.string().trim().min(1, "Title is required").optional(),
-  author: z.string().trim().min(1, "Author is required").optional(),
-  image: z.string().url("Image must be a valid URL").optional(),
-  body: z.string().min(1, "Body is required").optional(), // optional for updates
-  category: z.array(z.string()).optional(),
-  comments: z.array(z.string()).optional(),
-  isDeleted: z.boolean().default(false).optional(),
+  body: z.object({
+    title: z.string().trim().min(1, "Title is required").optional(),
+    author: z.string().trim().min(1, "Author is required").optional(),
+    image: z.string().url("Image must be a valid URL").optional(),
+    body: z.string().min(1, "Body is required").optional(),
+    category: z.array(z.string()).optional(),
+    comments: z.array(z.string()).optional(),
+    isDeleted: z.boolean().default(false).optional(),
+  }),
 });
 
 export const BlogPostValidations = {

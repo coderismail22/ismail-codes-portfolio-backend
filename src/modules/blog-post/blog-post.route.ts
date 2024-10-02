@@ -11,12 +11,12 @@ router.post(
   BlogPostControllers.createBlogPost,
 );
 router.get("/", BlogPostControllers.getAllBlogPosts);
-router.get("/", BlogPostControllers.getBlogPost);
+router.get("/:id", BlogPostControllers.getBlogPost);
 router.patch(
-  "/",
+  "/:id",
   validateRequest(BlogPostValidations.updateBlogPostValidationSchema),
   BlogPostControllers.updateBlogPost,
 );
-router.delete("/", BlogPostControllers.deleteBlogPost);
+router.delete("/:id", BlogPostControllers.deleteBlogPost);
 
 export const BlogPostRoutes = router;

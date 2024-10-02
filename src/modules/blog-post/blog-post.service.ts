@@ -18,12 +18,19 @@ const getBlogPost = async (id: string) => {
 };
 
 const updateBlogPost = async (id: string, payload: Partial<TBlogPost>) => {
-  const result = await BlogPost.findByIdAndUpdate(id, payload);
+  const result = await BlogPost.findByIdAndUpdate(id, payload, {
+    new: true,
+    runValidators: true,
+  });
   return result;
 };
 
 const deleteBlogPost = async (id: string) => {
-  const result = await BlogPost.findByIdAndUpdate(id, { isDeleted: true });
+  const result = await BlogPost.findByIdAndUpdate(
+    id,
+    { isDeleted: true },
+    { new: true, runValidators: true },
+  );
   return result;
 };
 

@@ -13,10 +13,10 @@ app.use(cookieParser());
 app.use(cors({ origin: ["http://localhost:5000/api/"] }));
 
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({ message: "Welcome to Bike Rental Service Server !!!" });
+  res.status(200).json({ message: "Welcome to my portfolio server !!!" });
 });
 
-app.use("/api/", router);
+app.use("/api/v1/", router);
 
 // Middleware
 app.use(globalErrorHandler);

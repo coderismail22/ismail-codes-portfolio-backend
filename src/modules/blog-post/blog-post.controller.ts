@@ -34,6 +34,7 @@ const getBlogPost = catchAsync(async (req, res) => {
 });
 
 const updateBlogPost = catchAsync(async (req, res) => {
+  // TODO: Handle Non-Primitive Fields
   const { id } = req.params;
   const result = await BlogPostServices.updateBlogPost(id, req.body);
   sendResponse(res, {
