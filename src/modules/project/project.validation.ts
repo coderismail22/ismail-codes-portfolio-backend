@@ -10,7 +10,7 @@ const createProjectValidationSchema = z.object({
     coverImage: z.string().url("Cover image must be a valid URL"),
     detailedImages: z
       .array(z.string().url("Detailed image must be a valid URL"))
-      .min(1, "At least one detailed image is required"),
+      .optional(),
     description: z.string().min(1, "Description is required"),
     duration: z.string().min(1, "Duration is required"),
     liveLink: z.string().url("Live link must be a valid URL"),
