@@ -18,6 +18,24 @@ const adminLogin = catchAsync(async (req, res) => {
   });
 });
 
+const adminLogout = catchAsync(async (req, res) => {
+  // Clear the token by setting an empty value with an immediate expiration
+  res.cookie("token", "", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    expires: new Date(0), // Expire immediately
+    sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+    path: "/",
+  });
+
+  // Send success response
+  sendResponse(res, {
+    success: true,
+    statusCode: 200,
+    message: "Logged out successfully.",
+  });
+});
+
 // Check authentication
 const checkAuth = catchAsync(async (req, res) => {
   const result = await AdminServices.checkAuthentication(
@@ -52,6 +70,7 @@ const changePassword = catchAsync(async (req, res) => {
 
 export const AdminControllers = {
   adminLogin,
+  adminLogout,
   checkAuth,
   changePassword,
 };
