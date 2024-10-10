@@ -3,6 +3,7 @@ import { BlogPostRoutes } from "../modules/blog-post/blog-post.route";
 import { NoteRoutes } from "../modules/note/note.route";
 import { ProjectRoutes } from "../modules/project/project.route";
 import { AdminRoutes } from "../modules/admin/admin.route";
+import { EmailRoutes } from "../modules/email/email.route";
 
 const router = express.Router();
 
@@ -22,6 +23,10 @@ const moduleRoutes = [
   {
     path: "/project",
     route: ProjectRoutes,
+  },
+  {
+    path: "/email",
+    route: EmailRoutes,
   },
 ];
 
