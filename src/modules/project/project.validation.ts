@@ -30,7 +30,7 @@ const updateProjectValidationSchema = z.object({
       .array(z.string())
       .min(1, "At least one technology is required")
       .optional(),
-    coverImage: z.string().url("Cover image must be a valid URL").optional(),
+    coverImage: z.string().optional(),
     detailedImages: z
       .array(z.string().url("Detailed image must be a valid URL"))
       .min(1, "At least one detailed image is required")

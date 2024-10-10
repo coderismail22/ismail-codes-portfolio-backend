@@ -6,7 +6,7 @@ const projectSchema = new Schema<TProject>(
   {
     title: { type: String, required: true, trim: true },
     technologies: { type: [String], required: true },
-    coverImage: { type: String, required: true },
+    coverImage: { type: String },
     detailedImages: { type: [String], required: true },
     description: { type: String, required: true },
     duration: { type: String, required: true },
