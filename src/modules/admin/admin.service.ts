@@ -30,7 +30,7 @@ const loginAdmin = async (email: string, password: string) => {
     cookieOptions: {
       httpOnly: true,
       secure: isProduction,
-      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+      maxAge: 60 * 1000 * 60, // 1 hour
       sameSite: sameSiteOption,
       path: "/",
     },
