@@ -21,21 +21,21 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin || allowedOrigins.includes(origin)) {
-        return callback(null, true);
+        callback(null, true);
+      } else {
+        callback(
+          new Error(
+            "CORS policy does not allow access from the specified origin.",
+          ),
+        );
       }
-      return callback(
-        new Error(
-          "CORS policy does not allow access from the specified origin.",
-        ),
-        false,
-      );
     },
+    credentials: true, // Enable credentials for cross-origin requests
   }),
 );
 
-
 app.get("/", (req: Request, res: Response) => {
-  res.status(200).json({ message: "Welcome to my ismail codes..." });
+  res.status(200).json({ message: "Welcome to my ismail codes server ... 💝" });
 });
 
 app.use("/api/v1/", router);
