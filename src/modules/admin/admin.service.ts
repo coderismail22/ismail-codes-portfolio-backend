@@ -63,6 +63,11 @@ const changeAdminPassword = async (
   }
 
   const decoded = jwt.verify(token, config.jwt_secret as string);
+  // Ensure decoded is of type JwtPayload
+  if (typeof decoded === "string" || !("id" in decoded)) {
+    throw new Error("Invalid token");
+  }
+
   const admin = await Admin.findById(decoded?.id);
 
   if (!admin) {
