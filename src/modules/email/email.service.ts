@@ -4,29 +4,51 @@ import config from "../../config";
 
 const sendEmailToIsmail = async (emailData: TEmail) => {
   const { name, country, email, message } = emailData;
+
   const transporter = nodemailer.createTransport({
-    // TODO: change email to ismailmdhossain2@gmail.com
-    host: "smtp.gmail.com",
-    port: 587,
-    secure: config.node_env === "production", // true for port 465, false for other ports
+    host: config.email_host,
+    port: parseInt(config.email_port as string),
+    secure: config.email_port === "465", // secure should be true for port 465
     auth: {
-      user: "ismailmdhossain2@gmail.com",
-      pass: "uume cyrd vtdn orwq",
+      user: config.email_address,
+      pass: config.email_password,
     },
     tls: {
       rejectUnauthorized: false,
     },
   });
 
+  await new Promise((resolve, reject) => {
+    transporter.verify(function (error, success) {
+      if (error) {
+        console.error("Transporter verification failed:", error);
+        reject(error);
+      } else {
+        console.log("Transporter is ready");
+        resolve(success);
+      }
+    });
+  });
+
   const mailOptions = {
-    from: `ismailmdhossain2@gmail.com`, // sender address
-    to: "ismailmdhossain2@gmail.com", // recipient's email
+    from: `ismailmdhossain2@gmail.com`,
+    to: "ismailmdhossain2@gmail.com",
     subject: "Connection Request From Portfolio",
     text: `Name: ${name}\nCountry: ${country}\nEmail: ${email}\nMessage: ${message}`,
     html: `<p>Name: ${name}</p><p>Country: ${country}</p><p>Email: ${email}</p><p>Message: ${message}</p>`,
   };
 
-  await transporter.sendMail(mailOptions);
+  return await new Promise((resolve, reject) => {
+    transporter.sendMail(mailOptions, (err, info) => {
+      if (err) {
+        console.error("Error sending mail:", err);
+        reject(err);
+      } else {
+        console.log("Mail sent successfully:", info);
+        resolve(info);
+      }
+    });
+  });
 };
 
 export const EmailServices = {
